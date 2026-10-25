@@ -2,7 +2,7 @@ import type { CSSProperties } from 'react';
 import Topography from './components/reactbits/Topography/Topography';
 import DecryptedText from './components/reactbits/DecryptedText/DecryptedText';
 import SpotlightCard from './components/reactbits/SpotlightCard/SpotlightCard';
-import { projects, statusLabel, type Project } from './data/projects';
+import { nextProjectId, projects, statusLabel, type Project } from './data/projects';
 
 const SCRAMBLE = '01<>/{}[]#$%&*+=';
 
@@ -77,7 +77,7 @@ function Entry({ project }: { project: Project }) {
 }
 
 export default function App() {
-  const nextId = `P-${String(projects.length + 1).padStart(3, '0')}`;
+  const nextId = nextProjectId;
 
   return (
     <>
