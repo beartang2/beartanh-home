@@ -1,0 +1,16 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "beartanh-home",
+  "compatibility_date": "2026-10-25",
+
+  // Vite가 빌드한 dist/ 폴더의 정적 파일만 서빙하는 Worker (Worker 코드 없음)
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page"
+  },
+
+  // 루트 도메인을 이 Worker에 연결 (DNS 레코드와 인증서를 Cloudflare가 자동 생성)
+  "routes": [
+    { "pattern": "beartanh.dev", "custom_domain": true }
+  ]
+}
