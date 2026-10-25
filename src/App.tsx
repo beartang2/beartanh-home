@@ -38,7 +38,7 @@ function Entry({ project }: { project: Project }) {
     >
       <div className="entry-meta">
         <span className="entry-id mono">
-          <DecryptedText text={project.id} animateOn="view" sequential speed={60} characters={SCRAMBLE} />
+          <DecryptedText text={project.id} animateOn="view" sequential speed={60} characters={SCRAMBLE} parentClassName="decrypt" />
         </span>
         <span className="entry-date mono">{project.date}</span>
       </div>
@@ -115,6 +115,7 @@ export default function App() {
           <h1 className="name mono">
             <DecryptedText
               text="BeartanH"
+              parentClassName="decrypt"
               animateOn="inViewHover"
               sequential
               speed={55}
@@ -174,7 +175,10 @@ export default function App() {
 
       <footer className="wrap foot">
         <span className="mono">© 2026 BeartanH</span>
-        <a className="mono" href="https://github.com/beartang2">github.com/beartang2</a>
+        <span className="foot-links">
+          <a href="/privacy/">개인정보처리방침</a>
+          <a className="mono" href="https://github.com/beartang2">github.com/beartang2</a>
+        </span>
       </footer>
     </>
   );

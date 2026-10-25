@@ -380,6 +380,12 @@ h2 {
   color: var(--chalk);
 }
 
+.foot-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+}
+
 /* ---------- Mobile ---------- */
 
 @media (max-width: 640px) {
