@@ -1,12 +1,10 @@
 import { StrictMode } from 'react';
 import { createRoot, hydrateRoot } from 'react-dom/client';
-import '@fontsource/ibm-plex-mono/400.css';
-import '@fontsource/ibm-plex-mono/500.css';
-import '@fontsource/ibm-plex-mono/600.css';
-import '@fontsource/ibm-plex-sans-kr/400.css';
-import '@fontsource/ibm-plex-sans-kr/600.css';
 import './styles.css';
 import App from './App';
+
+// 글꼴은 빌드에선 따로 늦게 붙임 (src/fonts.css, scripts/prerender.mjs). 개발 서버에선 여기서 불러옴
+if (import.meta.env.DEV) import('./fonts.css');
 
 const root = document.getElementById('root')!;
 const app = (
