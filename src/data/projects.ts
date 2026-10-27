@@ -33,7 +33,7 @@ export const projects: Project[] = [
     summary:
       '친구들 단톡방 봇으로 시작한 확률 강화 웹게임이에요. 무기를 강화하다 깨지면 처음부터 다시 하고, 파티 레이드·채굴·랭킹으로 같이 놀아요.',
     stack: ['Node.js', 'Supabase', 'Vercel'],
-    url: 'https://gganghwa.beartanh.dev/'
+    url: 'https://ganghwa.beartanh.dev/'
   },
   {
     id: 'P-002',
