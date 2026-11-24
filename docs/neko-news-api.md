@@ -45,6 +45,11 @@ curl -X POST https://beartanh.dev/api/news \
   -d '{"title":"…","summary":"…","body":"…","tags":["게임"],"sources":[{"title":"…","url":"https://…"}],"slug":"example"}'
 ```
 
+## 시험 (올리지 않고 검사만)
+
+`POST https://beartanh.dev/api/news?dry=1` — 같은 요청을 보내면 검사·하루 한도·주소 중복까지만 확인하고,
+올라갈 파일 내용을 `{ "ok": true, "dry": true, "id", "url", "file" }`로 돌려줘요. 실제로 올라가지 않아요.
+
 ## 글 내리기 (잘못 쓴 글 정정용)
 
 ```

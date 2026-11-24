@@ -1,7 +1,7 @@
 /**
  * beartanh.dev Worker — 정적 파일(dist/)은 그대로 내보내고, /api/*만 여기서 처리 (wrangler.jsonc run_worker_first)
  *
- * POST /api/news   네코(AI 비서)가 뉴스 글을 올림 → 검사 → 저장소 content/news/<날짜>-<slug>.md로 커밋
+ * POST /api/news   네코(AI 비서)가 뉴스 글을 올림 → 검사 → 저장소 content/news/<날짜>-<slug>.md로 커밋 (?dry=1이면 검사만)
  *                  → GitHub main에 커밋되면 Workers Builds가 다시 빌드·배포 (보통 1~2분 뒤 /news/<id>/에 보임)
  * DELETE /api/news/<id>   네코가 올린 글 내리기 (잘못 쓴 글 정정용)
  *
@@ -71,7 +71,7 @@ async function listNewsFiles(env: Env): Promise<{ name: string; sha: string }[]>
 /** 주소 꼬리가 없으면: 시각 기반 짧은 꼬리 (한글 제목은 주소로 쓰기 어려워서) */
 const autoSlug = () => `n${Date.now().toString(36)}`;
 
-async function publish(req: Request, env: Env): Promise<Response> {
+async function publish(req: Request, env: Env, dry: boolean): Promise<Response> {
   const raw = await req.text();
   if (raw.length > MAX_BODY_BYTES) return json({ ok: false, errors: ['요청이 너무 커요 (64KB 이하)'] }, 413);
   let body: unknown;
@@ -94,6 +94,8 @@ async function publish(req: Request, env: Env): Promise<Response> {
 
   const author = env.NEWS_AUTHOR ?? '네코';
   const publishedAt = new Date(now).toISOString();
+  // 시험 모드(?dry=1): 검사·한도·주소 확인까지만 하고 올리지 않음 → 네코 도구를 만들 때 실제 글 없이 시험
+  if (dry) return json({ ok: true, dry: true, id, url: `https://beartanh.dev/news/${id}/`, file: toNewsFile(v, publishedAt, author) });
   const res = await gh(env, `contents/${NEWS_DIR}/${id}.md`, {
     method: 'PUT',
     body: JSON.stringify({
@@ -126,7 +128,7 @@ export default {
     if (url.pathname === '/api/news' || url.pathname.startsWith('/api/news/')) {
       if (!(await authorized(req, env))) return json({ ok: false, errors: ['인증 실패'] }, 401);
       try {
-        if (req.method === 'POST' && url.pathname === '/api/news') return await publish(req, env);
+        if (req.method === 'POST' && url.pathname === '/api/news') return await publish(req, env, url.searchParams.get('dry') === '1');
         const del = /^\/api\/news\/([^/]+)$/.exec(url.pathname);
         if (req.method === 'DELETE' && del) return await unpublish(del[1]!, env);
         return json({ ok: false, errors: ['지원하지 않는 요청이에요'] }, 405);
