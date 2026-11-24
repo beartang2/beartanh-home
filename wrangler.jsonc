@@ -3,10 +3,21 @@
   "name": "beartanh-home",
   "compatibility_date": "2026-10-25",
 
-  // Vite가 빌드한 dist/ 폴더의 정적 파일만 서빙하는 Worker (Worker 코드 없음)
+  // 페이지는 Vite가 빌드한 dist/의 정적 파일 그대로. /api/*만 Worker 코드(worker/index.ts)가 받음
+  //  → 네코의 뉴스 발행 API (POST /api/news). 나머지 요청은 Worker를 거치지 않아 빠르고 공짜
+  "main": "./worker/index.ts",
   "assets": {
     "directory": "./dist",
-    "not_found_handling": "404-page"
+    "binding": "ASSETS",
+    "not_found_handling": "404-page",
+    "run_worker_first": ["/api/*"]
+  },
+
+  // 비밀값(NEKO_TOKEN, GITHUB_TOKEN)은 여기 말고 `npx wrangler secret put` 또는 대시보드 → 설정 → 변수 및 비밀
+  "vars": {
+    "GITHUB_REPO": "beartang2/beartanh-home",
+    "GITHUB_BRANCH": "main",
+    "NEWS_AUTHOR": "네코"
   },
 
   // 루트 도메인을 이 Worker에 연결 (DNS 레코드와 인증서를 Cloudflare가 자동 생성)

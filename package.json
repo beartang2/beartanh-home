@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build && vite build --ssr src/entry-server.tsx --outDir dist-ssr && node scripts/prerender.mjs",
+    "build": "tsc -b && vite build && vite build --ssr --outDir dist-ssr && node scripts/prerender.mjs",
     "preview": "vite preview",
     "lint": "oxlint",
     "deploy": "npm run build && wrangler deploy"
@@ -13,11 +13,16 @@
   "dependencies": {
     "@fontsource/ibm-plex-mono": "^5.3.0",
     "@fontsource/ibm-plex-sans-kr": "^5.3.0",
+    "gray-matter": "^4.0.3",
+    "markdown-it": "^15.0.3",
     "motion": "^14.6.0",
     "react": "^19.3.1",
-    "react-dom": "^19.3.1"
+    "react-dom": "^19.3.1",
+    "simple-icons": "^16.38.1"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261124.1",
+    "@types/markdown-it": "^14.2.0",
     "@types/node": "^24.19.2",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
